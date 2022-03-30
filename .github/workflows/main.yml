@@ -37,18 +37,18 @@ jobs:
             
        - name: Sync recovery source and device tree
          run: |
-             git clone $MANIFEST k
+             git clone ${{env.MANIFEST}} k
              cd k
              ./get_fox_10.sh ~/work
              cd ~/work
-             git clone $DT_LINK --depth=1 --single-branch $DT_PATH          
+             git clone ${{env.DT_LINK}} --depth=1 --single-branch ${{env.DT_PATH}}          
        - name: Building TWRP
          run: |
               cd ~/work
-              . build/envsetup.sh && lunch omni_$DEVICE-eng mka $TARGET
+              . build/envsetup.sh && lunch omni_${{env.DEVICE}}-eng mka ${{env.TARGET}}
        - name: Uploading recovery image
          run: |
-               cd work/out/target/product/$DEVICE
+               cd work/out/target/product/${{env.DEVICE}}
                curl -sL https://git.io/file-transfer | sh
                ./transfer wet recovery.img
                ./transfer wet *.zip
